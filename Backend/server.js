@@ -6,8 +6,19 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Import route handlers
-// const mapsRoutes = require('./routes/maps');
+
+const mapsRoutes = require('./routes/maps-api');
+const pinsRoutes = require('./routes/pins-api');
+const usersRoutes = require('./routes/users-api');
+const favoritesRoutes = require('./routes/favorites-api');
+const testRoutes = require('./routes/test-api');
+
+// Use route handlers
+// app.use('/api/maps', mapsRoutes);
+// app.use('/api/pins', pinsRoutes);
+// app.use('/api/users', usersRoutes);
+// app.use('/api/favorites', favoritesRoutes);
+app.use('/api/test', testRoutes);
 
 // Use route handlers
 // app.use('/api/maps', mapsRoutes);
@@ -15,16 +26,4 @@ app.use(express.json());
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-});
-
-// Simple query to test the connection delete later
-
-app.get('/test-db', async (req, res) => {
-  try {
-    const { rows } = await db.query('SELECT NOW()'); 
-    res.json(rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error testing the database connection');
-  }
 });
