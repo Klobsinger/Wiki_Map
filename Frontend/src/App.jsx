@@ -1,14 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css';
+import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const containerStyle = {
+    width: '400px',
+    height: '400px'
+  };
+
+  const center = {
+    lat: -25.344,
+    lng: 131.036
+  };
+
+  const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
   return (
     <LoadScript
-      googleMapsApiKey='YOUR_API_KEY'
+      googleMapsApiKey={GOOGLE_MAPS_API_KEY}
     >
       <GoogleMap
         mapContainerStyle={containerStyle}
@@ -24,4 +32,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
