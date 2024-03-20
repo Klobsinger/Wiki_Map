@@ -7,6 +7,7 @@ function App() {
   const [count, setCount] = useState(0)
 
   return (
+<<<<<<< HEAD
     <>
       <div>
         <a href="https://vitejs.dev" target="_blank">
@@ -30,6 +31,23 @@ function App() {
       </p>
     </>
   )
+=======
+    <LoadScript
+      googleMapsApiKey='YOUR_API_KEY'
+    >
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={9}
+      >
+        <Marker
+          position={center}
+          title="Uluru"
+        />
+      </GoogleMap>
+    </LoadScript>
+  );
+>>>>>>> 4e35e3c... Removed old leaked api key
 }
 
 export default App
