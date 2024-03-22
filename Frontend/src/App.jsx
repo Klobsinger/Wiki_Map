@@ -1,34 +1,27 @@
+import React from 'react';
 import './App.css';
-import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
+import { Routes, Route } from 'react-router-dom';
+import { Box, Text, VStack, Button } from '@chakra-ui/react';
+import Navbar from './components/Navbar';
+import Cityinfo from './components/Cityinfo';
 
 function App() {
-  const containerStyle = {
-    width: '400px',
-    height: '400px'
-  };
-
-  const center = {
-    lat: -25.344,
-    lng: 131.036
-  };
-
-  const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-
   return (
-    <LoadScript
-      googleMapsApiKey={GOOGLE_MAPS_API_KEY}
-    >
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={center}
-        zoom={9}
-      >
-        <Marker
-          position={center}
-          title="Uluru"
-        />
-      </GoogleMap>
-    </LoadScript>
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={
+          <VStack spacing={8} justify="center" align="center" height="100vh" bg="teal.500" color="white">
+            <Text fontSize="5xl" fontWeight="bold">Welcome to WikiMaps</Text>
+            <Text fontSize="xl">Explore cities and discover wonders.</Text>
+            <Button colorScheme="teal" variant="outline" size="lg">
+              Get Started
+            </Button>
+          </VStack>
+        } />
+        <Route path="/city/:cityId" element={<Cityinfo />} />
+      </Routes>
+    </>
   );
 }
 
