@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Text, VStack } from '@chakra-ui/react';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, LoadScriptNext, Marker } from '@react-google-maps/api';
 import axios from 'axios';
 import { useParams } from "react-router-dom";
 
@@ -41,7 +41,7 @@ const CityDetail = () => {
       <Text fontSize="2xl" fontWeight="bold">{city.name}</Text>
       <Text>{city.description}</Text>
       <Box>
-        <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY}>
+        <LoadScriptNext googleMapsApiKey={GOOGLE_MAPS_API_KEY}>
           <GoogleMap
             mapContainerStyle={mapContainerStyle}
             center={center}
@@ -49,7 +49,7 @@ const CityDetail = () => {
           >
             <Marker position={center} />
           </GoogleMap>
-        </LoadScript>
+        </LoadScriptNext>
       </Box>
     </VStack>
   );
