@@ -3,6 +3,8 @@ import { Box, Text, VStack } from '@chakra-ui/react';
 import { GoogleMap, LoadScript, LoadScriptNext, Marker } from '@react-google-maps/api';
 import axios from 'axios';
 import { useParams } from "react-router-dom";
+import Weather from './Weather';
+
 
 const CityDetail = () => {
   const [city, setCity] = useState(null);
@@ -27,8 +29,8 @@ const CityDetail = () => {
   }
 
   const mapContainerStyle = {
-    width: '600px',
-    height: '400px',
+    width: '700px',
+    height: '500px',
   };
 
   const center = {
@@ -50,6 +52,7 @@ const CityDetail = () => {
             <Marker position={center} />
           </GoogleMap>
         </LoadScriptNext>
+        {city && <Weather latitude={city.latitude} longitude={city.longitude} />}
       </Box>
     </VStack>
   );
