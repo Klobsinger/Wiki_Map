@@ -12,6 +12,7 @@ const pinsRoutes = require('./routes/pins-api');
 const usersRoutes = require('./routes/users-api');
 const favoritesRoutes = require('./routes/favorites-api');
 const testRoutes = require('./routes/test-api');
+const CityRoutes = require('./routes/cities-api');
 
 // Use route handlers
 // app.use('/api/maps', mapsRoutes);
@@ -19,7 +20,7 @@ const testRoutes = require('./routes/test-api');
 // app.use('/api/users', usersRoutes);
 // app.use('/api/favorites', favoritesRoutes);
 app.use('/api/test', testRoutes);
-
+app.use('/api/cities', CityRoutes);
 // Use route handlers
 // app.use('/api/maps', mapsRoutes);
 
