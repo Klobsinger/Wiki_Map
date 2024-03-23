@@ -21,6 +21,7 @@ const CityRoutes = require('./routes/cities-api');
 // app.use('/api/favorites', favoritesRoutes);
 app.use('/api/test', testRoutes);
 app.use('/api/cities', CityRoutes);
+app.use('/api/maps', mapsRoutes);
 // Use route handlers
 // app.use('/api/maps', mapsRoutes);
 
