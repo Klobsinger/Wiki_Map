@@ -29,13 +29,17 @@ const CityDetail = () => {
     const fetchMapData = async () => {
       try {
         const response = await axios.get(`http://localhost:3001/api/maps/${cityId}`);
-        console.log(response.data[0]);
-        setMap(response.data[0]);
+        if (response.data && response.data.length > 0) {
+          setMap(response.data[0]);
+        } else {
+          setMap(null); // Explicitly set map to null if no data is found
+        }
       } catch (error) {
         console.error('Failed to fetch map data:', error);
+        setMap(null); 
       }
     };
-
+  
     fetchMapData();
   }, [cityId]);
 
@@ -69,7 +73,8 @@ const CityDetail = () => {
         </LoadScriptNext>
         {city && <Weather latitude={city.latitude} longitude={city.longitude} />}
       </Box>
-      {map && <MapCard map={map} />}
+      {map && <MapCard key={map.map_id} map={map} />}
+
     </VStack>
   );
 };
