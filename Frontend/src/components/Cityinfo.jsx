@@ -4,11 +4,11 @@ import { GoogleMap, LoadScriptNext, Marker } from '@react-google-maps/api';
 import axios from 'axios';
 import { useParams } from "react-router-dom";
 import Weather from './Weather';
-import MapCard from './Mapcard';
+import MapList from './Maplist';
 
 const CityDetail = () => {
   const [city, setCity] = useState(null);
-  const [map, setMap] = useState(null);
+  const [maps, setMap] = useState(null);
   const { cityId } = useParams();
   const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
@@ -28,9 +28,9 @@ const CityDetail = () => {
   useEffect(() => {
     const fetchMapData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/api/maps/${cityId}`);
+        const response = await axios.get(`http://localhost:3001/api/maps/city/${cityId}`);
         if (response.data && response.data.length > 0) {
-          setMap(response.data[0]);
+          setMap(response.data[0].maps); 
         } else {
           setMap(null); // Explicitly set map to null if no data is found
         }
@@ -73,8 +73,7 @@ const CityDetail = () => {
         </LoadScriptNext>
         {city && <Weather latitude={city.latitude} longitude={city.longitude} />}
       </Box>
-      {map && <MapCard key={map.map_id} map={map} />}
-
+      <MapList maps={maps} />
     </VStack>
   );
 };
