@@ -1,13 +1,19 @@
+import { Text } from '@chakra-ui/react';
 import React from 'react';
-import Mapcard from './Mapcard'; 
+import MapCard from './Mapcard'; 
 
 const MapList = ({ maps }) => {
-  if (!maps || maps.length === 0) return null; // Early return if no maps
+  // Filter out maps with no pins before rendering
+  const mapsWithPins = maps?.filter(map => map.pins && map.pins.length > 0);
+
+  if (!maps || mapsWithPins.length === 0) {
+    return <Text>No user-generated maps with pins available for this city.</Text>;
+  }
 
   return (
     <div>
-      {maps.map(map => (
-        <Mapcard key={map.map_id} map={map} />
+      {mapsWithPins.map(map => (
+        <MapCard key={map.map_id} map={map} />
       ))}
     </div>
   );
