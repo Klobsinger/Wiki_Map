@@ -1,34 +1,34 @@
 const db = require("../connection");
 
-const getMapById = async (mapId) => {
+const getMapsByCityId = async (mapId) => {
   try {
     const query = `
     SELECT 
-    m.id AS map_id, 
-    m.title AS map_title, 
-    m.description AS map_description, 
     c.id AS city_id, 
     c.name AS city_name, 
     c.country, 
     c.latitude AS city_latitude, 
     c.longitude AS city_longitude,
     json_agg(json_build_object(
-        'pin_id', p.id, 
-        'pin_title', p.title, 
-        'pin_description', p.description, 
-        'pin_latitude', p.latitude, 
-        'pin_longitude', p.longitude, 
-        'image_url', p.image_url
-    )) FILTER (WHERE p.id IS NOT NULL) AS pins
+        'map_id', m.id, 
+        'map_title', m.title, 
+        'map_description', m.description,
+        'pins', (SELECT json_agg(json_build_object(
+            'pin_id', p.id, 
+            'pin_title', p.title, 
+            'pin_description', p.description, 
+            'pin_latitude', p.latitude, 
+            'pin_longitude', p.longitude, 
+            'image_url', p.image_url
+        )) FROM pins p WHERE m.id = p.map_id)
+    )) AS maps
 FROM 
-    maps m
-JOIN 
-    cities c ON m.city_id = c.id
+    cities c
 LEFT JOIN 
-    pins p ON m.id = p.map_id
+    maps m ON m.city_id = c.id
 WHERE 
-    m.id = $1
-GROUP BY m.id, c.id;   
+    c.id = $1
+GROUP BY c.id;   
     `;
 
     const result = await db.query(query, [mapId]);
@@ -41,5 +41,5 @@ GROUP BY m.id, c.id;
 
 
 module.exports = {
-  getMapById
+  getMapsByCityId
 };
