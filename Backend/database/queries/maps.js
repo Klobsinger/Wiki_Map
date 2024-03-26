@@ -13,6 +13,7 @@ const getMapsByCityId = async (mapId) => {
         'map_id', m.id, 
         'map_title', m.title, 
         'map_description', m.description,
+		'creator_username', u.username,
         'pins', (SELECT json_agg(json_build_object(
             'pin_id', p.id, 
             'pin_title', p.title, 
@@ -26,9 +27,10 @@ FROM
     cities c
 LEFT JOIN 
     maps m ON m.city_id = c.id
+	LEFT JOIN users u ON m.user_id = u.id
 WHERE 
     c.id = $1
-GROUP BY c.id;   
+GROUP BY c.id;  
     `;
 
     const result = await db.query(query, [mapId]);
