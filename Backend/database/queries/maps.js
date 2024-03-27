@@ -41,7 +41,22 @@ GROUP BY c.id;
   }
 };
 
+// Function to insert a new map into the database
+const createMap = async (client, title, description, cityId, userId) => {
+  // SQL query to insert a new map and return its ID
+  const mapInsertQuery = `
+    INSERT INTO maps (title, description, city_id, user_id)
+    VALUES ($1, $2, $3, $4) RETURNING id;
+  `;
+  
+  // Execute the query using the provided client for transactional integrity
+  const result = await client.query(mapInsertQuery, [title, description, cityId, userId]);
+  
+  // Return the ID of the newly inserted map
+  return result.rows[0].id;
+};
 
 module.exports = {
-  getMapsByCityId
+  getMapsByCityId,
+  createMap
 };
