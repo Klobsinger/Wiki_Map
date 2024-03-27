@@ -19,7 +19,9 @@ const MapCard = ({ map }) => {
   return (
     <Box p={4} boxShadow="md" borderRadius="lg" borderWidth="1px" overflow="hidden">
       <Text fontSize="xl" fontWeight="bold" mb={2}>{map.map_title}</Text>
-      <Text fontSize="md" color="gray.600">Created by: {map.creator_username}</Text>
+      <Text fontSize="md" color="gray.600">
+        Created by: {map.creator_username || 'Unknown'}
+      </Text>
       <Text mb={4}>{map.map_description}</Text>
       <LoadScriptNext googleMapsApiKey={GOOGLE_MAPS_API_KEY}>
         <GoogleMap
