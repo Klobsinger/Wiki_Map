@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { 
   Box, Text, Input, Textarea, Button, VStack, 
@@ -41,6 +42,7 @@ const MapCreate = ({ cityInfo }) => {
     const lng = event.latLng.lng();
     // Update the draft pin with the clicked location
     setDraftPin({ lat, lng, title: '', description: '' });
+    console.log('Clicked on map', { lat, lng });
     // Open the modal to edit the new pin's details
     setIsModalOpen(true);
   };
@@ -48,12 +50,27 @@ const MapCreate = ({ cityInfo }) => {
   // Adds the draft pin to the list of pins
   const addPin = () => {
     setPins([...pins, draftPin]);
+    console.log('Adding pin', draftPin);
+    console.log('All pins', pins);
     setIsModalOpen(false); // Close the modal after adding
   };
 
   // Handles the submission of the form to create a new map
   const handleSubmit = (e) => {
     e.preventDefault();
+    const mapData = {
+      cityId: cityInfo.id,
+      title: mapTitle,
+      description: mapDescription,
+      pins,
+    };
+
+    try {
+      const response = axios.post(`http://localhost:3001/api/maps`, mapData);
+      console.log('Map created', response.data);
+    } catch (error) {
+      console.error('Error creating map', error);
+    }
     // This is where you would integrate with your backend to save the map
     console.log('Submitting', { mapTitle, mapDescription, pins });
   };
