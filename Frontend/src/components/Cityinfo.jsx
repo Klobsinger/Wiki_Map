@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useParams } from "react-router-dom";
 import Weather from './Weather';
 import MapList from './Maplist';
+import MapCreate from './Mapcreate';
 
 const CityDetail = () => {
   const [city, setCity] = useState(null);
@@ -73,6 +74,7 @@ const CityDetail = () => {
         </LoadScriptNext>
         {city && <Weather latitude={city.latitude} longitude={city.longitude} />}
       </Box>
+      <MapCreate cityInfo={city} />
       <MapList maps={maps} />
     </VStack>
   );
