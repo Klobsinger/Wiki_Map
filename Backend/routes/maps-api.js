@@ -23,7 +23,7 @@ router.get('/city/:cityId', async (req, res) => {
 router.post('/', async (req, res) => {
   // Extracting title, description, pins, and cityId from the request body
   const { title, description, pins, cityId } = req.body;
-  const userId = 1; // Hardcoded user ID for now, to be replaced with actual user authentication
+  const userId = 1; //TODO Hardcoded user ID for now, to be replaced with actual user authentication
   
   // Obtain a dedicated client from the pool for transactional operations
   const client = await db.connect();
