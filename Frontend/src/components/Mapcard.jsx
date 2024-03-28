@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Text, VStack } from '@chakra-ui/react';
-import { GoogleMap, LoadScriptNext, Marker, InfoWindow } from '@react-google-maps/api';
+import { GoogleMap, LoadScriptNext, Marker } from '@react-google-maps/api';
+import PinInfoWindow from './PinInfoWindow';
 
 const MapCard = ({ map }) => {
   const [selectedPin, setSelectedPin] = useState(null);
@@ -36,16 +37,10 @@ const MapCard = ({ map }) => {
               onClick={() => setSelectedPin(pin)} // Set selectedPin on click
             >
               {selectedPin && selectedPin.pin_id === pin.pin_id && (
-                <InfoWindow
-                  position={{ lat: pin.pin_latitude, lng: pin.pin_longitude }}
-                  onCloseClick={() => setSelectedPin(null)} // Clear selectedPin on close
-                >
-                  <div>
-                    <h2>{pin.pin_title}</h2>
-                    <p>{pin.pin_description}</p>
-                    {/* Display additional information or an image if available */}
-                  </div>
-                </InfoWindow>
+                <PinInfoWindow 
+                pin={selectedPin}
+                onClose={() => setSelectedPin(null)} 
+              />
               )}
             </Marker>
           ))}
