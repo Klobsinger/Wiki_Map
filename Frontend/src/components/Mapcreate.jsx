@@ -73,7 +73,12 @@ const MapCreate = ({ cityInfo, onMapCreated }) => {
     try {
       const response = await axios.post(`http://localhost:3001/api/maps`, mapData);
       console.log('Map created', response.data);
-      onMapCreated(); // Pass the new map data to the parent component
+      onMapCreated(); // refresh the list of maps
+
+      // Reset form fields to initial state
+      setMapTitle('');
+      setMapDescription('');
+      setPins([]);
     } catch (error) {
       console.error('Error creating map', error);
     }
