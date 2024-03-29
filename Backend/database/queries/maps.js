@@ -22,7 +22,7 @@ const getMapsByCityId = async (mapId) => {
             'pin_longitude', p.longitude, 
             'image_url', p.image_url
         )) FROM pins p WHERE m.id = p.map_id)
-    )) AS maps
+    ) ORDER BY m.created_at DESC) AS maps
 FROM 
     cities c
 LEFT JOIN 
