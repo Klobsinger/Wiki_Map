@@ -47,6 +47,11 @@ const MapCreate = ({ cityInfo }) => {
     setIsModalOpen(true);
   };
 
+  const removePin = (lat, lng) => {
+    // Filter out the pin that matches the lat and lng
+    setPins(pins.filter(pin => pin.lat !== lat || pin.lng !== lng));
+  };
+
   // Adds the draft pin to the list of pins
   const addPin = () => {
     setPins([...pins, draftPin]);
@@ -106,6 +111,7 @@ const MapCreate = ({ cityInfo }) => {
               <Marker
                 key={`${pin.lat}-${pin.lng}`}
                 position={{ lat: pin.lat, lng: pin.lng }}
+                onClick={() => removePin(pin.lat, pin.lng)}
               />
             ))}
           </GoogleMap>
