@@ -9,9 +9,23 @@ import MapCreate from './Mapcreate';
 
 const CityDetail = () => {
   const [city, setCity] = useState(null);
-  const [maps, setMap] = useState(null);
+  const [maps, setMap] = useState([]);
   const { cityId } = useParams();
   const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+
+  const fetchMapData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3001/api/maps/city/${cityId}`);
+      if (response.data && response.data.length > 0) {
+        setMap(response.data[0].maps); // Assuming response.data is the array of maps
+      } else {
+        setMap([]); // Use an empty array to indicate no maps found
+      }
+    } catch (error) {
+      console.error('Failed to fetch map data:', error);
+      setMap([]); 
+    }
+  };
 
   useEffect(() => {
     const fetchCityData = async () => {
@@ -27,20 +41,6 @@ const CityDetail = () => {
   }, [cityId]);
 
   useEffect(() => {
-    const fetchMapData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3001/api/maps/city/${cityId}`);
-        if (response.data && response.data.length > 0) {
-          setMap(response.data[0].maps); 
-        } else {
-          setMap(null); // Explicitly set map to null if no data is found
-        }
-      } catch (error) {
-        console.error('Failed to fetch map data:', error);
-        setMap(null); 
-      }
-    };
-  
     fetchMapData();
   }, [cityId]);
 
@@ -74,7 +74,7 @@ const CityDetail = () => {
         </LoadScriptNext>
         {city && <Weather latitude={city.latitude} longitude={city.longitude} />}
       </Box>
-      <MapCreate cityInfo={city} />
+      <MapCreate cityInfo={city} onMapCreated={fetchMapData} />
       <MapList maps={maps} />
     </VStack>
   );

@@ -7,7 +7,7 @@ import {
 } from '@chakra-ui/react';
 import { GoogleMap, LoadScriptNext, Marker } from '@react-google-maps/api';
 
-const MapCreate = ({ cityInfo }) => {
+const MapCreate = ({ cityInfo, onMapCreated }) => {
   // State for the map's title and description
   const [mapTitle, setMapTitle] = useState('');
   const [mapDescription, setMapDescription] = useState('');
@@ -61,7 +61,7 @@ const MapCreate = ({ cityInfo }) => {
   };
 
   // Handles the submission of the form to create a new map
-  const handleSubmit = (e) => {
+  const handleSubmit = async  (e) => {
     e.preventDefault();
     const mapData = {
       cityId: cityInfo.id,
@@ -71,12 +71,12 @@ const MapCreate = ({ cityInfo }) => {
     };
 
     try {
-      const response = axios.post(`http://localhost:3001/api/maps`, mapData);
+      const response = await axios.post(`http://localhost:3001/api/maps`, mapData);
       console.log('Map created', response.data);
+      onMapCreated(); // Pass the new map data to the parent component
     } catch (error) {
       console.error('Error creating map', error);
     }
-    // This is where you would integrate with your backend to save the map
     console.log('Submitting', { mapTitle, mapDescription, pins });
   };
 
